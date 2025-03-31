@@ -18,8 +18,20 @@
           </div>
           <!-- Imagem do Produto/-->
           <div class="product-info">
-            <h1>T-shirt</h1>
-            <p>In Stock</p>
+            <h1> {{ product_title }} </h1>
+            <p v-if="InStock > 50"> Está no Estoque</p>
+            <p v-else-if="InStock <= 50 && InStock >= 1"> Quase esgotado</p>
+            <p v-else>Fora do Estoque</p>
+            <h3>Composição da Camiseta</h3>
+            <ul>
+              <li v-for="detail in details">
+                {{ detail }}
+              </li>
+            </ul>
+            <h3>Cores</h3>
+            <div v-for="variant in variants">
+              {{ variant.color }}
+            </div>
           </div>
         </div>
       </div>
@@ -30,10 +42,12 @@
 
       createApp({
         setup() {
-          const message = ref("Hello Vue");
           return {
-            message,
-            image: ref("assets/images/t-shirt-blue.png"),
+            product_title: ref("Spectacle Heavy Tee"),
+            image: ref("assets/images/cienatshirt.webp"),
+            InStock: ref(50),
+            details: ref(["50% cotton", "30% polyester", "20% wool"]),
+            variants: [{id:1, color: 'white and blue'},{id: 2, color: 'green'}],
           };
         },
       }).mount("#app");
