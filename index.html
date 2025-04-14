@@ -19,21 +19,28 @@
           </div>
           <!-- Imagem do Produto/-->
           <div class="product-info">
-            <h1> {{ product_title }} </h1>
-            <p v-if="InStock > 50"> Está no Estoque</p>
-            <p v-else-if="InStock <= 50 && InStock >= 1"> Quase esgotado</p>
+            <h1>{{ product_title }}</h1>
+            <p v-if="InStock > 50">Está no Estoque</p>
+            <p v-else-if="InStock <= 50 && InStock >= 1">Quase esgotado</p>
             <p v-else>Fora do Estoque</p>
             <h3>Composição da Camiseta</h3>
             <ul>
-              <li v-for="detail in details">
-                {{ detail }}
-              </li>
+              <li v-for="detail in details">{{ detail }}</li>
             </ul>
             <h3>Cores</h3>
-            <div v-for="variant in variants">
+            <div class="tshirtVariation"
+              v-for="variant in variants"
+              @mouseover="changeImage(variant.image, variant.title)">
               {{ variant.color }}
             </div>
-            <button class="button" v-on:click="addToCart" >Add to Cart</button>
+            <div class="cart-buttons">
+              <button class="button" v-on:click="addToCart">
+                Add to Cart
+              </button>
+              <button class="button" v-show="cart > 0" v-on:click="removeToCart">
+                Remove to Cart
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -44,19 +51,36 @@
 
       createApp({
         setup() {
+          const image = ref("assets/images/cienatshirt.webp");
+          const product_title = ref("Spectacle Heavy Tee");
+
+          const changeImage = (variantImage, variantTitle) => {
+            image.value = variantImage;
+            product_title.value = variantTitle;
+          };
 
           const cart = ref(0);
           const addToCart = () => {
             cart.value += 1;
           };
 
+          const removeToCart = () => {
+            if (cart.value > 0) cart.value -= 1;
+          };
+
           return {
-            product_title: ref("Spectacle Heavy Tee"),
-            image: ref("assets/images/cienatshirt.webp"),
-            InStock: ref(50),
+            product_title,
+            image,
+            InStock: ref(80),
             details: ref(["50% cotton", "30% polyester", "20% wool"]),
-            variants: [{id:1, color: 'white and blue'},{id: 2, color: 'green'}],
-            cart: ref(0),
+            variants: [
+              { id: 1, color: "white and blue", image: "assets/images/cienatshirt.webp", title: "Spectacle Heavy Tee" },
+              { id: 2, color: "green", image: "assets/images/cienapakistan-shirt.jpg", title: "Pakistan Tee" },
+            ],
+            cart,
+            addToCart,
+            removeToCart,
+            changeImage
           };
         },
       }).mount("#app");
