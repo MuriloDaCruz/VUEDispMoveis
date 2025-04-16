@@ -28,10 +28,9 @@
               <li v-for="detail in details">{{ detail }}</li>
             </ul>
             <h3>Cores</h3>
-            <div class="tshirtVariation"
-              v-for="variant in variants"
-              @mouseover="changeImage(variant.image, variant.title)">
-              {{ variant.color }}
+            <div class="color-circle" :style="{ backgroundColor: variant.color }"
+              v-for="variant in variants" 
+              @mouseover="changeImage(variant.image, variant.title)"> 
             </div>
             <div class="cart-buttons">
               <button class="button" v-on:click="addToCart">
@@ -76,6 +75,8 @@
             variants: [
               { id: 1, color: "white and blue", image: "assets/images/cienatshirt.webp", title: "Spectacle Heavy Tee" },
               { id: 2, color: "green", image: "assets/images/cienapakistan-shirt.jpg", title: "Pakistan Tee" },
+              {id: 3, color: "red", image: "assets/images/cienamagicred.jpg", title: "Magic Trick Heavy Tee" },
+              { id: 4, color: "Black", image: "assets/images/cienawizardblack.jpg", title: "Wizard Heavy Tee" },
             ],
             cart,
             addToCart,
